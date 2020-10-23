@@ -126,22 +126,17 @@ export class Customer {
   async getByageunder(type: number) {
     let customers: CustomerType[];
     try {
-      customers = await this.model.aggregate([{
-        $floor : {
-          age: {
-            $eq: type
-          }
-        }
-      }]).exec();
+      customers = await this.model.find({  
+        age: {
+        $lte: type
+      } })
+        
     } catch (error) {
       throw error
     }
 
     return customers;
   }
-
-
-
 
   async deleteAll() {
     try {
