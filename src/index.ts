@@ -35,6 +35,7 @@ app.post('/customers', async (req, res, next) => {
   } catch (error) {
     next(error)
   }
+  return res.send({ success: true }).json(req.body)
 });
 
 //@routes   GET /customers
@@ -96,6 +97,18 @@ app.get('/customers/state/:state', async (req, res, next) => {
   return res.send(customers)
 })
 
+app.get('/customers/age/:age', async (req, res, next) => {
+  let customers: CustomerType[];
+  const umur  = req.params.age as unknown as number
+
+  try {
+    customers = await customerModel.getByageunder(umur)
+  } catch (error) {
+    return next(error)
+  }
+
+  return res.send(customers)
+})
 
 app.listen(4000, () => {
   console.log('App listen to port 4000');
