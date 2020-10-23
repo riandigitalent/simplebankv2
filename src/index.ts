@@ -83,7 +83,18 @@ app.get('/customers/type/:type', async (req, res, next) => {
   return res.send(customers)
 })
 
+app.get('/customers/state/:state', async (req, res, next) => {
+  let customers: CustomerType[];
+  const state = req.params.state as string;
 
+  try {
+    customers = await customerModel.getByState(state)
+  } catch (error) {
+    return next(error)
+  }
+
+  return res.send(customers)
+})
 
 
 app.listen(4000, () => {

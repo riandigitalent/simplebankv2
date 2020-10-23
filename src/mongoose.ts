@@ -106,7 +106,22 @@ export class Customer {
     return customers;
   }
 
-  
+  async getByState(type: string) {
+    let customers: CustomerType[];
+    try {
+      customers = await this.model.aggregate([{
+        $match: {
+          state: {
+            $eq: type
+          }
+        }
+      }]).exec();
+    } catch (error) {
+      throw error
+    }
+
+    return customers;
+  }
 
   async deleteAll() {
     try {
